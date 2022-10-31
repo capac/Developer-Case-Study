@@ -7,7 +7,8 @@ from sklearn.model_selection import train_test_split
 # from sklearn.svm import LinearSVC
 # from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 # from sklearn.naive_bayes import GaussianNB
-from sklearn.naive_bayes import MultinomialNB
+# from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import ComplementNB
 from sklearn.metrics import roc_curve, auc
 # from sklearn.neural_network import MLPClassifier
 # from sklearn.svm import SVC
@@ -64,9 +65,8 @@ X_test = vectorizer.transform(test_data['Review Text'])
 y_test = test_data['Sentiment']
 
 # lr = LogisticRegression()
-# 0.9376004575323043
 # lr.fit(X_train, y_train)
-lda = MultinomialNB(alpha=0.1)
+lda = ComplementNB(alpha=0.1)
 lda.fit(X_train, y_train)
 
 # pred_lr = lr.predict_proba(X_test)[:, 1]
@@ -84,3 +84,6 @@ print(roc_auc_lda)
 # MultinomialNB: 0.796092507312772
 # GaussianNB: 0.5474236999350638
 # MultinomialNB(alpha=0.1): 0.9422103337960287
+# ComplementNB: 0.9349809659412476
+# ComplementNB(alpha=0.0): 0.7447193146547358
+# ComplementNB(alpha=0.1): 0.9422103337960286
