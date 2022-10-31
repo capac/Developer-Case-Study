@@ -66,7 +66,7 @@ y_test = test_data['Sentiment']
 
 # lr = LogisticRegression()
 # lr.fit(X_train, y_train)
-lda = ComplementNB(alpha=0.1)
+lda = ComplementNB(alpha=0.3)
 lda.fit(X_train, y_train)
 
 # pred_lr = lr.predict_proba(X_test)[:, 1]
@@ -81,9 +81,16 @@ print(roc_auc_lda)
 
 # LogisticRegression: 0.9376004575323043
 # LinearSVC: no predict_proba with LinearSVC
-# MultinomialNB: 0.796092507312772
 # GaussianNB: 0.5474236999350638
-# MultinomialNB(alpha=0.1): 0.9422103337960287
-# ComplementNB: 0.9349809659412476
 # ComplementNB(alpha=0.0): 0.7447193146547358
 # ComplementNB(alpha=0.1): 0.9422103337960286
+# ComplementNB(alpha=0.2): 0.9455888047564295
+# ComplementNB(alpha=0.3): 0.9463579117939674  ******
+# ComplementNB(alpha=0.4): 0.9457162942266334
+# ComplementNB(alpha=1.0): 0.9349809659412476
+# MultinomialNB(alpha=0.1): 0.9422103337960287
+# MultinomialNB(alpha=0.2): 0.9455888047564296
+# MultinomialNB(alpha=0.3): 0.9463579117939673  ******
+# MultinomialNB(alpha=0.4): 0.9457162942266335
+# MultinomialNB(alpha=0.5): 0.9447625061808562
+# MultinomialNB(alpha=1.0): 0.796092507312772
