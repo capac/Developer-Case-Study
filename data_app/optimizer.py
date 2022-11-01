@@ -15,11 +15,11 @@ from sklearn.metrics import roc_curve, auc
 # from sklearn.metrics import confusion_matrix
 
 
-df1 = pd.read_csv('Womens Clothing E-Commerce Reviews.csv', index_col=0)
-df = df1[['Review Text', 'Rating', 'Class Name', 'Age']].copy()
+df1 = pd.read_csv('data_app/Womens Clothing E-Commerce Reviews.csv', index_col=0)
+df = df1[['review_text', 'rating', 'class_name', 'age']].copy()
 
-df['Review Text'] = df['Review Text'].fillna('')
-df['Review Text'] = df['Review Text'].apply(lambda x: NLTKPreProcesser(x).text)
+df['review_text'] = df['review_text'].fillna('')
+df['review_text'] = df['review_text'].apply(lambda x: NLTKPreProcesser(x).text)
 
 # CountVectorizer() converts a collection
 # of text documents to a matrix of token counts
@@ -47,26 +47,27 @@ def wordcounts(s):
 
 
 # add new column to the dataframe
-df['Word Counts'] = df['Review Text'].apply(wordcounts)
+df['word_counts'] = df['review_text'].apply(wordcounts)
 
 # Rating of 4 or higher -> positive, while the ones with
 # Rating of 2 or lower -> negative
 # Rating of 3 -> neutral
-df = df[df['Rating'] != 3]
-df['Sentiment'] = df['Rating'] >= 4
+df = df[df['rating'] != 3]
+df['sentiment'] = df['rating'] >= 4
 # print(df.head())
 
 # split data
 train_data, test_data = train_test_split(df, train_size=0.8, random_state=0)
 # select the columns and prepare data for the models
-X_train = vectorizer.fit_transform(train_data['Review Text'])
-y_train = train_data['Sentiment']
-X_test = vectorizer.transform(test_data['Review Text'])
-y_test = test_data['Sentiment']
+X_train = vectorizer.fit_transform(train_data['review_text'])
+y_train = train_data['sentiment']
+X_test = vectorizer.transform(test_data['review_text'])
+y_test = test_data['sentiment']
 
 # lr = LogisticRegression()
 # lr.fit(X_train, y_train)
-lda = ComplementNB(alpha=0.3)
+# lda = ComplementNB(alpha=0.3)
+lda = ComplementNB(aplha=0.3)
 lda.fit(X_train, y_train)
 
 # pred_lr = lr.predict_proba(X_test)[:, 1]
@@ -94,3 +95,6 @@ print(roc_auc_lda)
 # MultinomialNB(alpha=0.4): 0.9457162942266335
 # MultinomialNB(alpha=0.5): 0.9447625061808562
 # MultinomialNB(alpha=1.0): 0.796092507312772
+# DecisionTreeClassifier(): 0.6707551666001417
+# DecisionTreeClassifier(max_depth=5): 0.6432558666007375
+# RandomForestClassifier(): 0.9234961902095236
