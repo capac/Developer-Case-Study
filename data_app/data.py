@@ -34,7 +34,7 @@ class SQLModel:
                       'rating=:rating, '
                       'recommended_ind=:recommended_ind, '
                       'positive_feedback_count=:positive_feedback_count, '
-                      'division_name=:division_name '
+                      'division_name=:division_name, '
                       'class_name=:class_name '
                       'WHERE id=:id')
 
@@ -72,7 +72,8 @@ class SQLModel:
 
     def get_record(self, id):
         query = ('SELECT * FROM reviews WHERE id=:id')
-        self.query(query, {"id": id})
+        result = self.query(query, {"id": id})
+        return result[0] if result else {}
 
     def add_record(self, record):
         query_id = record['id']
@@ -85,10 +86,10 @@ class SQLModel:
             query = self.update_command
         self.query(query, record)
 
-    def delete_record(self, id):
+    def delete_record(self, record):
         # delete record information
         delete_query = self.delete_command
-        self.query(delete_query, id)
+        self.query(delete_query, record)
 
 
 class CSVModel:
