@@ -18,6 +18,7 @@ from sklearn.metrics import roc_curve, auc
 df1 = pd.read_csv('data_app/Womens Clothing E-Commerce Reviews.csv', index_col=0)
 df = df1[['review_text', 'rating', 'class_name', 'age']].copy()
 
+# applies preprocessor classes to data frame with apply method
 df['review_text'] = df['review_text'].fillna('')
 df['review_text'] = df['review_text'].apply(lambda x: NLTKPreProcesser(x).text)
 
@@ -66,8 +67,7 @@ y_test = test_data['sentiment']
 
 # lr = LogisticRegression()
 # lr.fit(X_train, y_train)
-# lda = ComplementNB(alpha=0.3)
-lda = ComplementNB(aplha=0.3)
+lda = ComplementNB(alpha=0.3)
 lda.fit(X_train, y_train)
 
 # pred_lr = lr.predict_proba(X_test)[:, 1]
@@ -98,3 +98,4 @@ print(roc_auc_lda)
 # DecisionTreeClassifier(): 0.6707551666001417
 # DecisionTreeClassifier(max_depth=5): 0.6432558666007375
 # RandomForestClassifier(): 0.9234961902095236
+# LogisticRegression(solver='liblinear'): 0.9375307553453238
