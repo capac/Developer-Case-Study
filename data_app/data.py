@@ -77,9 +77,9 @@ class SQLModel:
 
     def add_record(self, record):
         query_id = record['id']
-        results = self.get_record(query_id)
+        self.results = self.get_record(query_id)
         # if no previous record exists then add it
-        if not results:
+        if not self.results:
             query = self.insert_command
         # if the record exists then update it
         else:
