@@ -88,8 +88,14 @@ class SQLModel:
 
     def delete_record(self, record):
         # delete record information
-        delete_query = self.delete_command
-        self.query(delete_query, record)
+        query_id = record['id']
+        delete_result = self.get_record(query_id)
+        if not delete_result:
+            print(f'Cannot delete record {query_id}, not in database')
+        else:
+            delete_query = self.delete_command
+            self.query(delete_query, record)
+            print(f'Record {query_id} deleted from database')
 
 
 class CSVModel:
