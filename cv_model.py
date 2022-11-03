@@ -27,4 +27,4 @@ X_train = cv.fit_transform(train_data['review_text'])
 with open('cv_model.pkl', 'wb') as fh:
     pickle.dump(cv, fh)
 
-print(f'Time elapsed: {time() -t0} sec')
+print(f'Time elapsed: {round(time() -t0, 2)} sec')
