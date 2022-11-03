@@ -6,7 +6,7 @@ class Application():
 
     def __init__(self, *args, **kwargs):
         '''On initiatization creates database, loads data and tests
-        addition, update and deletion of record'''
+        addition or update and deletion of record'''
 
         # database login
         self.database_login()
@@ -17,8 +17,11 @@ class Application():
         # import CSV file to database
         self.file_import("Womens Clothing E-Commerce Reviews.csv")
 
-        # insert record test
-        self.insert({'id': 23486, 'clothing_id': 1104, 'age': 25,
+        # read record
+        self.get_record('0')
+
+        # insert new record / update existing record test
+        self.insert({'id': 23487, 'clothing_id': 1104, 'age': 52,
                      'title': 'Please make more like this one!',
                      'review_text': 'This dress fits perfectly!',
                      'rating': 5, 'recommended_ind': 1, 'positive_feedback_count': 22,
@@ -26,12 +29,12 @@ class Application():
                      'class_name': 'Dresses'})
 
         # delete record test
-        self.delete({'id': 23487, 'clothing_id': 1104, 'age': 52,
-                     'title': 'Please make more like this one!',
-                     'review_text': 'This dress fits perfectly!',
-                     'rating': 5, 'recommended_ind': 1, 'positive_feedback_count': 22,
-                     'division_name': 'General Petite', 'department_name': 'Dresses',
-                     'class_name': 'Dresses'})
+        # self.delete({'id': 23488, 'clothing_id': 1104, 'age': 52,
+        #              'title': 'Please make more like this one!',
+        #              'review_text': 'This dress fits perfectly!',
+        #              'rating': 5, 'recommended_ind': 1, 'positive_feedback_count': 22,
+        #              'division_name': 'General Petite', 'department_name': 'Dresses',
+        #              'class_name': 'Dresses'})
 
     def database_login(self):
         '''Creates database and table for data'''
@@ -61,14 +64,28 @@ class Application():
         except IntegrityError:
             pass
 
+    def get_record(self, id):
+        try:
+            result = self.data_model.get_record(id)
+        except Exception as e:
+            print('Problem reading file')
+            raise e
+        else:
+            print(f'Result {int(id)}: {result}')
+
     def insert(self, record):
         '''Handles adding or updating new record(s) to database'''
 
         try:
             self.data_model.add_record(record)
         except Exception as e:
-            print('Problem reading file')
+            print('Problem adding or updating file')
             raise e
+        else:
+            if not self.data_model.results:
+                print(f'''Added record {record['id']}''')
+            else:
+                print(f'''Updated record {record['id']}''')
 
     def delete(self, record):
         '''Removes record from database'''
@@ -78,3 +95,5 @@ class Application():
         except Exception as e:
             print('Problem deleting file')
             raise e
+        else:
+            print(f'''Deleted record {record['id']}''')
