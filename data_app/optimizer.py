@@ -3,16 +3,8 @@ from preprocessing import NLTKPreProcesser
 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
-# from sklearn.linear_model import LogisticRegression
-# from sklearn.svm import LinearSVC
-# from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-# from sklearn.naive_bayes import GaussianNB
-# from sklearn.naive_bayes import MultinomialNB
 from sklearn.naive_bayes import ComplementNB
 from sklearn.metrics import roc_curve, auc
-# from sklearn.neural_network import MLPClassifier
-# from sklearn.svm import SVC
-# from sklearn.metrics import confusion_matrix
 
 
 df1 = pd.read_csv('data_app/Womens Clothing E-Commerce Reviews.csv', index_col=0)
@@ -55,7 +47,6 @@ df['word_counts'] = df['review_text'].apply(wordcounts)
 # Rating of 3 -> neutral
 df = df[df['rating'] != 3]
 df['sentiment'] = df['rating'] >= 4
-# print(df.head())
 
 # split data
 train_data, test_data = train_test_split(df, train_size=0.8, random_state=0)
@@ -65,20 +56,15 @@ y_train = train_data['sentiment']
 X_test = vectorizer.transform(test_data['review_text'])
 y_test = test_data['sentiment']
 
-# lr = LogisticRegression()
-# lr.fit(X_train, y_train)
-lda = ComplementNB(alpha=0.3)
-lda.fit(X_train, y_train)
+cnb = ComplementNB(alpha=0.3)
+cnb.fit(X_train, y_train)
 
-# pred_lr = lr.predict_proba(X_test)[:, 1]
-# fpr_lr, tpr_lr, _ = roc_curve(y_test, pred_lr)
-# roc_auc_lr = auc(fpr_lr, tpr_lr)
-# print(roc_auc_lr)
+pred_cnb = cnb.predict_proba(X_test)[:, 1]
+fpr_cnb, tpr_cnb, _ = roc_curve(y_test, pred_cnb)
+roc_auc_cnb = auc(fpr_cnb, tpr_cnb)
+print(roc_auc_cnb)
 
-pred_lda = lda.predict_proba(X_test)[:, 1]
-fpr_lda, tpr_lda, _ = roc_curve(y_test, pred_lda)
-roc_auc_lda = auc(fpr_lda, tpr_lda)
-print(roc_auc_lda)
+# some previous algorithm attempts
 
 # LogisticRegression: 0.9376004575323043
 # LinearSVC: no predict_proba with LinearSVC
@@ -86,12 +72,16 @@ print(roc_auc_lda)
 # ComplementNB(alpha=0.0): 0.7447193146547358
 # ComplementNB(alpha=0.1): 0.9422103337960286
 # ComplementNB(alpha=0.2): 0.9455888047564295
+
 # ComplementNB(alpha=0.3): 0.9463579117939674  ******
+
 # ComplementNB(alpha=0.4): 0.9457162942266334
 # ComplementNB(alpha=1.0): 0.9349809659412476
 # MultinomialNB(alpha=0.1): 0.9422103337960287
 # MultinomialNB(alpha=0.2): 0.9455888047564296
+
 # MultinomialNB(alpha=0.3): 0.9463579117939673  ******
+
 # MultinomialNB(alpha=0.4): 0.9457162942266335
 # MultinomialNB(alpha=0.5): 0.9447625061808562
 # MultinomialNB(alpha=1.0): 0.796092507312772
