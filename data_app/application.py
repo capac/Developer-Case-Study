@@ -17,25 +17,6 @@ class Application():
         # import CSV file to database
         self.file_import("Womens Clothing E-Commerce Reviews.csv")
 
-        # read record
-        self.get_record('0')
-
-        # insert new record / update existing record test
-        self.insert({'id': 23487, 'clothing_id': 1104, 'age': 52,
-                     'title': 'Please make more like this one!',
-                     'review_text': 'This dress fits perfectly!',
-                     'rating': 5, 'recommended_ind': 1, 'positive_feedback_count': 22,
-                     'division_name': 'General Petite', 'department_name': 'Dresses',
-                     'class_name': 'Dresses'})
-
-        # delete record test
-        # self.delete({'id': 23488, 'clothing_id': 1104, 'age': 52,
-        #              'title': 'Please make more like this one!',
-        #              'review_text': 'This dress fits perfectly!',
-        #              'rating': 5, 'recommended_ind': 1, 'positive_feedback_count': 22,
-        #              'division_name': 'General Petite', 'department_name': 'Dresses',
-        #              'class_name': 'Dresses'})
-
     def database_login(self):
         '''Creates database and table for data'''
 
@@ -95,5 +76,3 @@ class Application():
         except Exception as e:
             print('Problem deleting file')
             raise e
-        else:
-            print(f'''Deleted record {record['id']}''')
